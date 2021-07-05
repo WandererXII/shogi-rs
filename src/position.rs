@@ -137,6 +137,11 @@ impl Position {
         &self.color_bb[c.index()]
     }
 
+    /// Returns a bitboard containing pieces of the given type.
+    pub fn piece_bb(&self, p: PieceType) -> &Bitboard {
+        &self.type_bb[p.index()]
+    }
+
     /// Returns the number of the given piece in hand.
     pub fn hand(&self, p: Piece) -> u8 {
         self.hand.get(p)
