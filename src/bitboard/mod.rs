@@ -38,6 +38,18 @@ impl Bitboard {
         Bitboard { p: [0, 0] }
     }
 
+    /// Returns an instance of `Bitboard` with square.
+    #[inline(always)]
+    pub fn from_square(sq: Square) -> Bitboard {
+        square_bb(sq)
+    }
+
+    /// Checks if square is occupied.
+    #[inline(always)]
+    pub fn is_occupied(&self, sq: Square) -> bool {
+        (*self & square_bb(sq)).is_any()
+    }
+
     /// Checks if any of its squares is filled.
     #[inline(always)]
     pub fn is_any(&self) -> bool {
