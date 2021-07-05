@@ -110,6 +110,17 @@ impl<'a, 'b> ops::BitAnd<&'a Bitboard> for &'b Bitboard {
     }
 }
 
+impl ops::BitAnd<Bitboard> for Bitboard {
+    type Output = Bitboard;
+
+    #[inline(always)]
+    fn bitand(self, rhs: Bitboard) -> Bitboard {
+        Bitboard {
+            p: [self.p[0] & rhs.p[0], self.p[1] & rhs.p[1]],
+        }
+    }
+}
+
 impl<'a> ops::BitAndAssign<&'a Bitboard> for Bitboard {
     #[inline(always)]
     fn bitand_assign(&mut self, rhs: &'a Bitboard) {
@@ -123,6 +134,17 @@ impl<'a, 'b> ops::BitOr<&'a Bitboard> for &'b Bitboard {
 
     #[inline(always)]
     fn bitor(self, rhs: &'a Bitboard) -> Bitboard {
+        Bitboard {
+            p: [self.p[0] | rhs.p[0], self.p[1] | rhs.p[1]],
+        }
+    }
+}
+
+impl ops::BitOr<Bitboard> for Bitboard {
+    type Output = Bitboard;
+
+    #[inline(always)]
+    fn bitor(self, rhs: Bitboard) -> Bitboard {
         Bitboard {
             p: [self.p[0] | rhs.p[0], self.p[1] | rhs.p[1]],
         }
@@ -148,6 +170,17 @@ impl<'a, 'b> ops::BitXor<&'a Bitboard> for &'b Bitboard {
     }
 }
 
+impl ops::BitXor<Bitboard> for Bitboard {
+    type Output = Bitboard;
+
+    #[inline(always)]
+    fn bitxor(self, rhs: Bitboard) -> Bitboard {
+        Bitboard {
+            p: [self.p[0] ^ rhs.p[0], self.p[1] ^ rhs.p[1]],
+        }
+    }
+}
+
 impl<'a> ops::BitXorAssign<&'a Bitboard> for Bitboard {
     #[inline(always)]
     fn bitxor_assign(&mut self, rhs: &'a Bitboard) {
@@ -162,6 +195,15 @@ impl<'a> ops::BitAnd<Square> for &'a Bitboard {
     #[inline(always)]
     fn bitand(self, rhs: Square) -> Bitboard {
         self & &square_bb(rhs)
+    }
+}
+
+impl ops::BitAnd<Square> for Bitboard {
+    type Output = Bitboard;
+
+    #[inline(always)]
+    fn bitand(self, rhs: Square) -> Bitboard {
+        self & square_bb(rhs)
     }
 }
 
@@ -181,6 +223,15 @@ impl<'a> ops::BitOr<Square> for &'a Bitboard {
     }
 }
 
+impl ops::BitOr<Square> for Bitboard {
+    type Output = Bitboard;
+
+    #[inline(always)]
+    fn bitor(self, rhs: Square) -> Bitboard {
+        self | square_bb(rhs)
+    }
+}
+
 impl<'a> ops::BitOrAssign<Square> for Bitboard {
     #[inline(always)]
     fn bitor_assign(&mut self, rhs: Square) {
@@ -194,6 +245,15 @@ impl<'a> ops::BitXor<Square> for &'a Bitboard {
     #[inline(always)]
     fn bitxor(self, rhs: Square) -> Bitboard {
         self ^ &square_bb(rhs)
+    }
+}
+
+impl ops::BitXor<Square> for Bitboard {
+    type Output = Bitboard;
+
+    #[inline(always)]
+    fn bitxor(self, rhs: Square) -> Bitboard {
+        self ^ square_bb(rhs)
     }
 }
 
@@ -329,7 +389,7 @@ const SQUARE_BB: [Bitboard; 81] = [
 ];
 
 #[inline(always)]
-fn square_bb(sq: Square) -> Bitboard {
+pub fn square_bb(sq: Square) -> Bitboard {
     SQUARE_BB[sq.index()]
 }
 
