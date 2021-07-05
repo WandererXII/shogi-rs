@@ -5,7 +5,7 @@
 [![crates.io](https://img.shields.io/crates/v/shogi.svg)](https://crates.io/crates/shogi)
 [![docs.rs](https://docs.rs/shogi/badge.svg)](https://docs.rs/shogi)
 
-A Bitboard-based shogi library in Rust. Board representation, move generation/validation and time control utilities.
+A Bitboard-based shogi library in Rust. Board representation, move generation/validation and time control utilities. Tweaked for [lishogi-gif](https://github.com/WandererXII/lila-gif).
 
 [Documentation](https://nozaq.github.io/shogi-rs)
 
