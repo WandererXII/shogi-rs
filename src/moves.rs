@@ -1,5 +1,23 @@
 use crate::{PieceType, Square};
 use std::fmt;
+use std::str;
+use std::error::Error;
+
+/// Error when parsing an invalid MOVE.
+#[derive(Clone, Debug)]
+pub struct ParseMoveError;
+
+impl fmt::Display for ParseMoveError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        "invalid move".fmt(f)
+    }
+}
+
+impl Error for ParseMoveError {
+    fn description(&self) -> &str {
+        "invalid move"
+    }
+}
 
 /// Represents a move which either is a normal move or a drop move.
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
@@ -57,6 +75,14 @@ impl fmt::Display for Move {
                 write!(f, "{}*{}", piece_type.to_string().to_uppercase(), to)
             }
         }
+    }
+}
+
+impl str::FromStr for Move {
+    type Err = ParseMoveError;
+
+    fn from_str(s: &str) -> Result<Move, Self::Err> {
+        Move::from_sfen(s).ok_or(ParseMoveError)
     }
 }
 
