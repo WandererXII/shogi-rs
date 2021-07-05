@@ -691,7 +691,8 @@ impl Position {
 
     /// Parses the given SFEN string and updates the game state.
     pub fn set_sfen(&mut self, sfen_str: &str) -> Result<(), SfenError> {
-        let mut parts = sfen_str.split_whitespace();
+        let u_sfen = sfen_str.replace("_", " ");
+        let mut parts = u_sfen.split_whitespace();
 
         // Build the initial position, all parts are required.
         parts
