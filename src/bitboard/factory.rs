@@ -82,6 +82,12 @@ impl Factory {
         }
     }
 
+    /// Returns a bitboard in which all squares are filled.
+    #[inline(always)]
+    pub fn all() -> Bitboard {
+        FULL_BB
+    }
+
     /// Returns a bitboard in which squares in opposite player's area are filled.
     #[inline(always)]
     pub fn promote_zone(c: Color) -> Bitboard {
