@@ -689,6 +689,17 @@ impl Position {
     /////////////////////////////////////////////////////////////////////////
     // SFEN serialization / deserialization
     /////////////////////////////////////////////////////////////////////////
+    
+    pub fn from_sfen(s: &str) -> Result<Position, SfenError> {
+        let mut pos = Position::new();
+        let r = pos.set_sfen(s);
+        if r.is_ok() {
+            Ok(pos)
+        }
+        else {
+            Err(SfenError {})
+        }
+    }
 
     /// Parses the given SFEN string and updates the game state.
     pub fn set_sfen(&mut self, sfen_str: &str) -> Result<(), SfenError> {
@@ -947,6 +958,14 @@ impl Default for Position {
             color_bb: Default::default(),
             type_bb: Default::default(),
         }
+    }
+}
+
+impl str::FromStr for Position {
+    type Err = SfenError;
+
+    fn from_str(s: &str) -> Result<Position, Self::Err> {
+        Position::from_sfen(s)
     }
 }
 
