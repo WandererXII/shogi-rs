@@ -1,5 +1,6 @@
 use itertools::Itertools;
 use std::fmt;
+use std::str;
 
 use crate::bitboard::Factory as BBFactory;
 use crate::{Bitboard, Color, Hand, Move, MoveError, Piece, PieceType, SfenError, Square};
@@ -694,23 +695,20 @@ impl Position {
         let u_sfen = sfen_str.replace("_", " ");
         let mut parts = u_sfen.split_whitespace();
 
-        // Build the initial position, all parts are required.
+        // Build the initial position, only the board part is required, other must be valid or missing
         parts
             .next()
             .ok_or(SfenError {})
             .and_then(|s| self.parse_sfen_board(s))?;
-        parts
-            .next()
-            .ok_or(SfenError {})
-            .and_then(|s| self.parse_sfen_stm(s))?;
-        parts
-            .next()
-            .ok_or(SfenError {})
-            .and_then(|s| self.parse_sfen_hand(s))?;
-        parts
-            .next()
-            .ok_or(SfenError {})
-            .and_then(|s| self.parse_sfen_ply(s))?;
+        
+        let color = parts.next().unwrap_or("b");
+        self.parse_sfen_stm(color)?;
+
+        let hand = parts.next().unwrap_or("-");
+        self.parse_sfen_hand(hand)?;
+
+        let ply = parts.next().unwrap_or("1");
+        self.parse_sfen_ply(ply)?;
 
         self.sfen_history.clear();
         self.log_position();
