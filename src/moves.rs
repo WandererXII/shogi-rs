@@ -1,7 +1,7 @@
 use crate::{PieceType, Square};
+use std::error::Error;
 use std::fmt;
 use std::str;
-use std::error::Error;
 
 /// Error when parsing an invalid MOVE.
 #[derive(Clone, Debug)]

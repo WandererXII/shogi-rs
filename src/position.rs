@@ -268,7 +268,7 @@ impl Position {
         &bb & &self.move_candidates(sq, attack_pc.flip())
     }
 
-    fn find_king(&self, c: Color) -> Option<Square> {
+    pub fn find_king(&self, c: Color) -> Option<Square> {
         let mut bb = &self.type_bb[PieceType::King.index()] & &self.color_bb[c.index()];
         if bb.is_any() {
             Some(bb.pop())
@@ -689,14 +689,12 @@ impl Position {
     /////////////////////////////////////////////////////////////////////////
     // SFEN serialization / deserialization
     /////////////////////////////////////////////////////////////////////////
-    
     pub fn from_sfen(s: &str) -> Result<Position, SfenError> {
         let mut pos = Position::new();
         let r = pos.set_sfen(s);
         if r.is_ok() {
             Ok(pos)
-        }
-        else {
+        } else {
             Err(SfenError {})
         }
     }
@@ -711,7 +709,6 @@ impl Position {
             .next()
             .ok_or(SfenError {})
             .and_then(|s| self.parse_sfen_board(s))?;
-        
         let color = parts.next().unwrap_or("b");
         self.parse_sfen_stm(color)?;
 
