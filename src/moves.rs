@@ -51,7 +51,7 @@ impl Move {
             }
 
             return None;
-        } else if first.is_uppercase() && s.chars().nth(1).unwrap() == '*' {
+        } else if first.is_alphabetic() && s.chars().nth(1).unwrap() == '*' {
             if let Some(piece_type) = first.to_lowercase().next().and_then(PieceType::from_sfen) {
                 if let Some(to) = Square::from_sfen(&s[2..4]) {
                     return Some(Move::Drop { to, piece_type });
@@ -112,6 +112,13 @@ mod tests {
             ),
             (
                 "S*5e",
+                Move::Drop {
+                    to: SQ_5E,
+                    piece_type: PieceType::Silver,
+                },
+            ),
+            (
+                "s*5e",
                 Move::Drop {
                     to: SQ_5E,
                     piece_type: PieceType::Silver,
